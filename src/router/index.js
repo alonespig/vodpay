@@ -1,8 +1,38 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
+const routes = [
+  {
+    path: '/',
+    name: 'layout',
+    component: () => import('@/views/Layout/index.vue'),
+    children: [
+      {
+        path: '/product',
+        name: 'product',
+        component: () => import('@/views/product/index.vue'),
+      },
+      {
+        path: '/channel',
+        name: 'channel',
+        component: () => import('@/views/channel/index.vue'),
+      },
+      {
+        path: '/supplier',
+        name: 'supplier',
+        component: () => import('@/views/supplier/list/index.vue'),
+      },
+      {
+        path: '/supplier/product',
+        name: 'supplier-product',
+        component: () => import('@/views/supplier/product/index.vue'),
+      }
+    ]
+  }
+]
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [],
+  routes,
 })
 
 export default router
