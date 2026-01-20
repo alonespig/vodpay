@@ -7,14 +7,25 @@
           <el-button type="primary" @click="dialogAddSupplier">添加供应商</el-button>
         </div>
       </template>
-      <Table :tableData="tableData" />
+      <Table
+        :tableData="tableData"
+        :handleRecharge="handleRecharge"
+        :handleEdit="updateSupplierStatus"
+      />
     </el-card>
-    <el-dialog v-model="dialogSupplierVisible" title="Tips" width="500" :before-close="handleClose">
-      <span>This is a message</span>
+    <el-dialog v-model="dialogSupplierVisible" title="添加供应商" width="500">
+      <el-form :model="form" label-width="auto" style="max-width: 600px">
+        <el-form-item label="供应商">
+          <el-input v-model="form.name" />
+        </el-form-item>
+        <el-form-item label="供应商编码">
+          <el-input v-model="form.code" />
+        </el-form-item>
+      </el-form>
       <template #footer>
         <div class="dialog-footer">
-          <el-button @click="dialogSupplierVisible = false">Cancel</el-button>
-          <el-button type="primary" @click="dialogSupplierVisible = false"> Confirm </el-button>
+          <el-button type="primary" @click="addSupplier"> 确认添加 </el-button>
+          <el-button @click="dialogSupplierVisible = false"> 取消 </el-button>
         </div>
       </template>
     </el-dialog>
@@ -24,26 +35,82 @@
 <script setup>
 import Table from "./components/Table.vue";
 import { ref, onMounted } from "vue";
-import { getSupplierList } from "@/api/supplier";
+import { getSupplierList, createSupplier, rechargeSupplier, updateSupplier } from "@/api/supplier";
+import { ElMessage } from "element-plus";
 
 // 定义表格数据
 const tableData = ref([]);
-
+const form = ref({
+  name: "",
+  code: "",
+});
 const dialogSupplierVisible = ref(false);
 
 async function fetchSupplierList() {
   try {
     const res = await getSupplierList();
     tableData.value = res;
+    form.value = {
+      name: "",
+      code: "",
+    };
   } catch (error) {
     console.error("获取供应商列表失败", error);
   }
 }
 
+// 添加供应商
+async function addSupplier() {
+  try {
+    await createSupplier(form.value);
+    dialogSupplierVisible.value = false;
+    fetchSupplierList();
+  } catch (error) {
+    console.error("添加供应商失败", error);
+  }
+}
+
+const updateSupplierStatus = async (data) => {
+  try {
+    await updateSupplier(data);
+    ElMessage({
+      message: `供应商${data.name}状态更新成功，状态${data.status == 1 ? "启用" : "禁用"}`,
+      type: "success",
+      plain: true,
+    });
+  } catch (error) {
+    ElMessage({
+      message: `供应商${data.name}状态更新失败，状态${data.status == 1 ? "启用" : "禁用"}`,
+      type: "error",
+      plain: true,
+    });
+  }
+  fetchSupplierList();
+};
+
 // 处理添加供应商
 function dialogAddSupplier() {
   dialogSupplierVisible.value = true;
   console.log("添加供应商");
+}
+
+// 供应商充值接口
+async function handleRecharge(data) {
+  try {
+    await rechargeSupplier(data);
+    ElMessage({
+      message: `供应商${data.name}充值成功，充值金额${data.amount}`,
+      type: "success",
+      plain: true,
+    });
+    fetchSupplierList(); // 刷新供应商列表
+  } catch (error) {
+    ElMessage({
+      message: `供应商${data.name}充值失败，充值金额${data.amount}`,
+      type: "error",
+      plain: true,
+    });
+  }
 }
 
 onMounted(() => {

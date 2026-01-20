@@ -1,9 +1,13 @@
 <template>
-  <div class="aside"
-  >
-    <el-menu active-text-color="#ffd04b" background-color="black" router :default-active="$route.path"
-     :collapse="isCollapse"
-      text-color="#fff">
+  <div class="aside">
+    <el-menu
+      active-text-color="#ffd04b"
+      background-color="black"
+      router
+      :default-active="$route.path"
+      :collapse="isCollapse"
+      text-color="#fff"
+    >
       <el-sub-menu index="1">
         <template #title>
           <el-icon><Setting /></el-icon>
@@ -15,9 +19,12 @@
       <el-sub-menu index="2">
         <template #title>
           <el-icon><Setting /></el-icon>
-          <span>渠道管理</span>
+          <span>项目管理</span>
         </template>
         <el-menu-item index="/channel">渠道列表</el-menu-item>
+        <el-menu-item index="/project/brand">项目品牌</el-menu-item>
+        <el-menu-item index="/project/spec">项目规格</el-menu-item>
+        <el-menu-item index="/project/sku">项目SKU</el-menu-item>
       </el-sub-menu>
       <el-sub-menu index="3">
         <template #title>
@@ -31,14 +38,14 @@
 </template>
 
 <script setup>
-import { Setting } from '@element-plus/icons-vue'
+import { Setting } from "@element-plus/icons-vue";
 
 defineProps({
   isCollapse: {
     type: Boolean,
-    default: false
-  }
-})
+    default: false,
+  },
+});
 </script>
 
 <style scoped>
@@ -51,5 +58,4 @@ defineProps({
 :deep(.el-menu) {
   width: 100%;
 }
-
 </style>
