@@ -1,0 +1,126 @@
+<template>
+  <div>
+    <el-card>
+      <template #header>
+        <div class="card-title">
+          <span>产品列表</span>
+          <el-button type="primary" @click="showDialog = true">添加产品</el-button>
+        </div>
+      </template>
+      <ProductTable :productList="productList" @edit="handleEdit" />
+    </el-card>
+  </div>
+  <AddProductDialog
+    v-model:showDialog="showDialog"
+    @submit="handleSubmit"
+    :skuList="skuList"
+    :brandList="brandList"
+    :specList="specList"
+  />
+  <EditProductDialog
+    v-model:editDialog="editDialog"
+    :editData="editData"
+    @submit="handleEditSubmit"
+  />
+</template>
+
+<script setup>
+import { ref, onMounted } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import {
+  getProjectProductListApi,
+  createProjectProductApi,
+  updateProjectProductApi,
+  getProjectListApi,
+} from "@/api/project";
+import { ElMessage } from "element-plus";
+import ProductTable from "./components/ProductTable.vue";
+import AddProductDialog from "./components/AddProductDialog.vue";
+import EditProductDialog from "./components/EditProductDialog.vue";
+import { storeToRefs } from "pinia";
+import { useProjectStore } from "@/stores/project";
+const route = useRoute();
+
+const channelID = route.params.channelID;
+const projectID = route.params.projectID;
+
+const projectStore = useProjectStore();
+
+// 使用 storeToRefs 只获取响应式状态
+const { skuList, brandList, specList } = storeToRefs(projectStore);
+
+const { getProjectData } = projectStore;
+
+const showDialog = ref(false);
+const editDialog = ref(false);
+
+const router = useRouter();
+const editData = ref({});
+
+const productList = ref([]);
+
+const getProjectProductList = async () => {
+  const res = await getProjectProductListApi(channelID, projectID);
+  productList.value = res;
+};
+
+const handleSubmit = async (formData) => {
+  try {
+    await createProjectProductApi(channelID, projectID, formData);
+    ElMessage({
+      message: `产品创建成功`,
+      type: "success",
+      plain: true,
+    });
+    getProjectProductList();
+  } catch (error) {
+    ElMessage({
+      message: error.message,
+      type: "error",
+      plain: true,
+    });
+  }
+};
+
+onMounted(() => {
+  getProjectData();
+  getProjectProductList();
+});
+
+const handleEdit = (row) => {
+  editData.value = row;
+  editDialog.value = true;
+};
+
+const handleProject = (projectid) => {
+  router.push({
+    path: `/channel/${projectid}/project`,
+  });
+};
+
+const handleEditSubmit = async (formData) => {
+  try {
+    await updateChannel(formData);
+    ElMessage({
+      message: `产品${formData.name}更新成功`,
+      type: "success",
+      plain: true,
+    });
+    getProjectProductList();
+  } catch (error) {
+    ElMessage({
+      message: error.message,
+      type: "error",
+      plain: true,
+    });
+  }
+};
+</script>
+
+<style scoped>
+.card-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+</style>

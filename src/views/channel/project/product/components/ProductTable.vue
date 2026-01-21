@@ -1,24 +1,17 @@
 <template>
   <div>
-    <el-table class="my-table" :data="tableData" style="width: 100%">
+    <el-table class="my-table" :data="productList" style="width: 100%">
       <el-table-column type="index" label="#" width="80" align="center" />
-      <el-table-column prop="name" label="渠道" width="160" align="center" />
-      <el-table-column prop="whiteList" label="白名单" width="300" align="center" />
+      <el-table-column type="id" label="产品编码" prop="id" width="80" align="center" />
+      <el-table-column prop="name" label="供应商" width="160" align="center" />
+      <el-table-column prop="facePrice" label="面值" width="300" align="center" />
+      <el-table-column prop="price" label="售价" width="300" align="center" />
       <el-table-column label="状态" align="center" width="100">
         <template #default="scope">
           <el-tag :type="scope.row.status === 1 ? 'success' : 'danger'">
             {{ scope.row.status === 1 ? "启用中" : "禁用中" }}
           </el-tag>
         </template>
-      </el-table-column>
-      <el-table-column label="余额" align="center">
-        <template #default="scope"> {{ (scope.row.balance * 1.0) / 100 }} 元 </template>
-      </el-table-column>
-      <el-table-column label="授信" align="center">
-        <template #default="scope"> {{ (scope.row.creditLimit * 1.0) / 100 }} 元 </template>
-      </el-table-column>
-      <el-table-column label="授信余额" align="center">
-        <template #default="scope"> {{ (scope.row.creditBalance * 1.0) / 100 }} 元 </template>
       </el-table-column>
       <el-table-column label="创建时间" align="center" width="180">
         <template #default="scope">
@@ -29,7 +22,7 @@
         <template #default="scope">
           <el-button type="primary" link size="mini" @click="handleEdit(scope.row)">编辑</el-button>
           <el-button type="primary" link size="mini" @click="handleProject(scope.row)"
-            >项目</el-button
+            >供应商</el-button
           >
         </template>
       </el-table-column>
@@ -40,7 +33,7 @@
 <script setup>
 import dayjs from "dayjs";
 const props = defineProps({
-  tableData: {
+  productList: {
     type: Array,
     default: () => [],
   },

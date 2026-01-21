@@ -17,6 +17,16 @@ const routes = [
         component: () => import("@/views/channel/index.vue"),
       },
       {
+        path: "channel/:channelID/project",
+        name: "Project",
+        component: () => import("@/views/channel/project/index.vue"),
+      },
+      {
+        path: "channel/:channelID/project/:projectID/product",
+        name: "Product",
+        component: () => import("@/views/channel/project/product/index.vue"),
+      },
+      {
         path: "supplier",
         name: "supplier",
         component: () => import("@/views/supplier/list/index.vue"),
