@@ -9,7 +9,7 @@
       </template>
       <SupplierTable
         :tableData="tableData"
-        :handleRecharge="handleRecharge"
+        @click-recharge="getRechargeInfo"
         :handleEdit="updateSupplierStatus"
       />
     </el-card>
@@ -29,15 +29,24 @@
         </div>
       </template>
     </el-dialog>
+    <RechargeDialog
+      v-model:rechargeDialog="rechargeDialog"
+      :supplierData="rechargeInfo"
+      @submit="handleRecharge"
+    />
   </div>
 </template>
 
 <script setup>
 import SupplierTable from "./components/SupplierTable.vue";
+import RechargeDialog from "./components/RechargeDialog.vue";
 import { ref, onMounted } from "vue";
 import { getSupplierList, createSupplier, rechargeSupplier, updateSupplier } from "@/api/supplier";
 import { ElMessage } from "element-plus";
 
+// 供应商充值弹窗
+const rechargeDialog = ref(false);
+const rechargeInfo = ref({})
 // 定义表格数据
 const tableData = ref([]);
 const form = ref({
@@ -57,6 +66,12 @@ async function fetchSupplierList() {
   } catch (error) {
     console.error("获取供应商列表失败", error);
   }
+}
+
+// 表格点击充值，获取充值信息
+function getRechargeInfo(row) {
+  rechargeInfo.value = row;
+  rechargeDialog.value = true;
 }
 
 // 添加供应商
@@ -98,7 +113,7 @@ async function handleRecharge(data) {
   try {
     await rechargeSupplier(data);
     ElMessage({
-      message: `供应商${data.name}充值成功，充值金额${data.amount}`,
+      message: `供应商${data.name}充值成功，等待审核通过`,
       type: "success",
       plain: true,
     });

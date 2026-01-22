@@ -26,7 +26,7 @@
     </el-table-column>
   </el-table>
 
-  <el-dialog v-model="dialogShow" title="供应商充值" width="500">
+  <!-- <el-dialog v-model="dialogShow" title="供应商充值" width="500">
     <el-form :model="rechargeForm" label-width="auto" style="max-width: 600px">
       <el-form-item label="供应商">
         <el-input v-model="rechargeForm.supplierName" disabled />
@@ -41,7 +41,7 @@
         <el-button @click="dialogShow = false"> 取消 </el-button>
       </div>
     </template>
-  </el-dialog>
+  </el-dialog> -->
 
   <el-dialog v-model="dialogEdit" title="供应商编辑" width="500">
     <el-form :model="supplierStatusForm" label-width="auto" style="max-width: 600px">
@@ -72,22 +72,15 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
-  handleRecharge: {
-    type: Function,
-    default: () => {},
-  },
   handleEdit: {
     type: Function,
     default: () => {},
   },
 });
-const dialogShow = ref(false);
+
+const emit = defineEmits(["click-recharge"]);
+
 const dialogEdit = ref(false);
-const rechargeForm = ref({
-  supplierID: "",
-  supplierName: "",
-  amount: 0,
-});
 
 const supplierStatusForm = ref({
   id: "",
@@ -95,10 +88,7 @@ const supplierStatusForm = ref({
   status: 1,
 });
 
-const submitRecharge = () => {
-  props.handleRecharge(rechargeForm.value);
-  dialogShow.value = false;
-};
+// const rechargeInfo = ref({})
 
 const submitEdit = () => {
   props.handleEdit(supplierStatusForm.value);
@@ -106,12 +96,9 @@ const submitEdit = () => {
 };
 
 const clickRecharge = (row) => {
-  rechargeForm.value = {
-    supplierID: row.id,
-    supplierName: row.name,
-    amount: 0,
-  };
-  dialogShow.value = true;
+  console.log(row);
+  // rechargeInfo.value = row.value;
+  emit("click-recharge", {...row});
 };
 
 const clickEdit = (row) => {
