@@ -28,7 +28,7 @@
 import { ref, onMounted } from "vue";
 import { storeToRefs } from "pinia";
 import { useProjectStore } from "@/stores/project";
-import Table from "@/views/project/components/Table.vue";
+import Table from "../components/Table.vue";
 
 const projectStore = useProjectStore();
 

@@ -9,11 +9,11 @@
       <el-form-item label="项目">
         <el-input disabled v-model="form.name" />
       </el-form-item>
-      <el-form-item label="白名单">
-        <el-input v-model="form.whiteList" />
+      <el-form-item label="面值">
+        <el-input v-model.number="form.facePrice" />
       </el-form-item>
-      <el-form-item label="授信">
-        <el-input v-model.number="form.creditLimit" />
+      <el-form-item label="售价">
+        <el-input v-model.number="form.price" />
       </el-form-item>
       <el-form-item label="状态" label-width="auto">
         <el-switch
@@ -47,9 +47,9 @@ const emit = defineEmits(["update:editDialog", "submit"]);
 const form = ref({
   id: 0,
   name: "",
-  whiteList: "",
+  facePrice: 0,
+  price: 0,
   status: 0,
-  creditLimit: 100,
 });
 
 watch(
@@ -58,9 +58,9 @@ watch(
     Object.assign(form.value, {
       id: newVal.id,
       name: newVal.name,
-      whiteList: newVal.whiteList,
+      facePrice: newVal.facePrice * 1.0 / 100,
+      price: newVal.price * 1.0 / 100,
       status: newVal.status,
-      creditLimit: (newVal.creditLimit * 1.0) / 100,
     });
   },
 );

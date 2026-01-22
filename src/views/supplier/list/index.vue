@@ -7,7 +7,7 @@
           <el-button type="primary" @click="dialogAddSupplier">添加供应商</el-button>
         </div>
       </template>
-      <Table
+      <SupplierTable
         :tableData="tableData"
         :handleRecharge="handleRecharge"
         :handleEdit="updateSupplierStatus"
@@ -33,7 +33,7 @@
 </template>
 
 <script setup>
-import Table from "./components/Table.vue";
+import SupplierTable from "./components/SupplierTable.vue";
 import { ref, onMounted } from "vue";
 import { getSupplierList, createSupplier, rechargeSupplier, updateSupplier } from "@/api/supplier";
 import { ElMessage } from "element-plus";
@@ -91,7 +91,6 @@ const updateSupplierStatus = async (data) => {
 // 处理添加供应商
 function dialogAddSupplier() {
   dialogSupplierVisible.value = true;
-  console.log("添加供应商");
 }
 
 // 供应商充值接口

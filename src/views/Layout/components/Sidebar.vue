@@ -22,9 +22,7 @@
           <span>项目管理</span>
         </template>
         <el-menu-item index="/channel">渠道列表</el-menu-item>
-        <el-menu-item index="/project/brand">项目品牌</el-menu-item>
-        <el-menu-item index="/project/spec">项目规格</el-menu-item>
-        <el-menu-item index="/project/sku">项目SKU</el-menu-item>
+
       </el-sub-menu>
       <el-sub-menu index="3">
         <template #title>
@@ -32,6 +30,9 @@
           <span>产品管理</span>
         </template>
         <el-menu-item index="/product">产品列表</el-menu-item>
+        <el-menu-item index="/product/brand">品牌列表</el-menu-item>
+        <el-menu-item index="/product/spec">规格列表</el-menu-item>
+        <el-menu-item index="/product/sku">SKU列表</el-menu-item>
       </el-sub-menu>
     </el-menu>
   </div>

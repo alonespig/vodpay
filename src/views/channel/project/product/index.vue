@@ -31,7 +31,6 @@ import {
   getProjectProductListApi,
   createProjectProductApi,
   updateProjectProductApi,
-  getProjectListApi,
 } from "@/api/project";
 import { ElMessage } from "element-plus";
 import ProductTable from "./components/ProductTable.vue";
@@ -92,15 +91,9 @@ const handleEdit = (row) => {
   editDialog.value = true;
 };
 
-const handleProject = (projectid) => {
-  router.push({
-    path: `/channel/${projectid}/project`,
-  });
-};
-
 const handleEditSubmit = async (formData) => {
   try {
-    await updateChannel(formData);
+    await updateProjectProductApi(channelID, projectID, formData.id, formData);
     ElMessage({
       message: `产品${formData.name}更新成功`,
       type: "success",

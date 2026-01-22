@@ -19,5 +19,4 @@ const props = defineProps({
     default: () => [],
   },
 });
-console.log("aaaa", props.tableData);
 </script>
