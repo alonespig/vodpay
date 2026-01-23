@@ -34,7 +34,22 @@ const routes = [
       {
         path: "supplier/product",
         name: "supplier-product",
-        component: () => import("@/views/supplier/product/index.vue"),
+        component: () => import("@/views/supplier/product/SupplierProductList.vue"),
+      },
+      {
+        path: "supplier/recharge",
+        name: "supplier-recharge",
+        component: () => import("@/views/supplier/RechargeList.vue"),
+      },
+      {
+        path: "supplier/recharge/history",
+        name: "supplier-recharge-history",
+        component: () => import("@/views/supplier/RechargeHistory.vue"),
+      },
+      {
+        path: 'supplier/:supplierID/product',
+        name: 'SupplierProduct',
+        component: () => import("@/views/supplier/SupplierProduct.vue"),
       },
       {
         path: "product/spec",

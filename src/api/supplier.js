@@ -35,6 +35,33 @@ export function rechargeSupplier(data) {
   });
 }
 
+
+// 供应商充值
+export function supplierRechargeApi(params) {
+  return service({
+    url: "/supplier/recharge",
+    method: "get",
+    params,
+  });
+}
+
+// 供应商充值
+export function updateSupplierRecharge(data) {
+  return service({
+    url: "/supplier/recharge",
+    method: "put",
+    data,
+  });
+}
+
+// 获取供应商充值记录
+export function getSupplierRechargeHistory() {
+  return service({
+    url: "/supplier/recharge/history",
+    method: "get",
+  });
+}
+
 // 创建供应商产品
 export function createSupplierProduct(data) {
   return service({
@@ -54,9 +81,10 @@ export function updateSupplierProduct(data) {
 }
 
 // 获取供应商产品列表
-export function getSupplierProductList() {
+export function getSupplierProductList(params) {
   return service({
     url: "/supplier/product",
     method: "get",
+    params: params,
   });
 }

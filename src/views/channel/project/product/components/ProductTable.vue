@@ -29,7 +29,7 @@
       <el-table-column label="操作" align="center">
         <template #default="scope">
           <el-button type="primary" link size="mini" @click="handleEdit(scope.row)">编辑</el-button>
-          <el-button type="primary" link size="mini" @click="handleProject(scope.row)"
+          <el-button type="primary" link size="mini" @click="handleSupplier(scope.row)"
             >供应商</el-button
           >
         </template>
@@ -40,19 +40,19 @@
 
 <script setup>
 import dayjs from "dayjs";
-const props = defineProps({
+defineProps({
   productList: {
     type: Array,
     default: () => [],
   },
 });
 
-const emit = defineEmits(["edit", "project"]);
+const emit = defineEmits(["edit", "add-supplier"]);
 const handleEdit = (row) => {
   emit("edit", row);
 };
-const handleProject = (row) => {
-  emit("project", row.id);
+const handleSupplier = (row) => {
+  emit("add-supplier", row.id);
 };
 </script>
 

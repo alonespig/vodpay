@@ -7,11 +7,8 @@
           <el-button type="primary" @click="dialogAddSupplier">添加供应商</el-button>
         </div>
       </template>
-      <SupplierTable
-        :tableData="tableData"
-        @click-recharge="getRechargeInfo"
-        :handleEdit="updateSupplierStatus"
-      />
+      <SupplierTable :tableData="tableData" @click-recharge="getRechargeInfo" @click-product="getSupplieID"
+        :handleEdit="updateSupplierStatus" />
     </el-card>
     <el-dialog v-model="dialogSupplierVisible" title="添加供应商" width="500">
       <el-form :model="form" label-width="auto" style="max-width: 600px">
@@ -29,11 +26,7 @@
         </div>
       </template>
     </el-dialog>
-    <RechargeDialog
-      v-model:rechargeDialog="rechargeDialog"
-      :supplierData="rechargeInfo"
-      @submit="handleRecharge"
-    />
+    <RechargeDialog v-model:rechargeDialog="rechargeDialog" :supplierData="rechargeInfo" @submit="handleRecharge" />
   </div>
 </template>
 
@@ -41,8 +34,11 @@
 import SupplierTable from "./components/SupplierTable.vue";
 import RechargeDialog from "./components/RechargeDialog.vue";
 import { ref, onMounted } from "vue";
+import { useRouter } from 'vue-router';
 import { getSupplierList, createSupplier, rechargeSupplier, updateSupplier } from "@/api/supplier";
 import { ElMessage } from "element-plus";
+
+const router = useRouter();
 
 // 供应商充值弹窗
 const rechargeDialog = ref(false);
@@ -72,6 +68,14 @@ async function fetchSupplierList() {
 function getRechargeInfo(row) {
   rechargeInfo.value = row;
   rechargeDialog.value = true;
+}
+
+function getSupplieID(id) {
+  console.log(id)
+  router.push({
+    name: 'SupplierProduct',
+    params: { supplierID: id },
+  })
 }
 
 // 添加供应商

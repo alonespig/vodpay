@@ -22,6 +22,7 @@
       <template #default="scope">
         <el-button type="primary" link @click="clickRecharge(scope.row)">充值</el-button>
         <el-button type="primary" link @click="clickEdit(scope.row)">编辑</el-button>
+        <el-button type="primary" link @click="clickProduct(scope.row)">商品</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -78,7 +79,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(["click-recharge"]);
+const emit = defineEmits(["click-recharge", "click-product"]);
 
 const dialogEdit = ref(false);
 
@@ -99,6 +100,12 @@ const clickRecharge = (row) => {
   console.log(row);
   // rechargeInfo.value = row.value;
   emit("click-recharge", {...row});
+};
+
+const clickProduct = (row) => {
+  console.log(row);
+  console.log(row.id)
+  emit("click-product", row.id);
 };
 
 const clickEdit = (row) => {

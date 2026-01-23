@@ -7,7 +7,9 @@
           <el-button type="primary" @click="showDialog = true">添加产品</el-button>
         </div>
       </template>
-      <ProductTable :productList="productList" @edit="handleEdit" />
+      <ProductTable :productList="productList" @edit="handleEdit" 
+      @add-supplier="handleAddSupplier"
+      />
     </el-card>
   </div>
   <AddProductDialog
@@ -53,7 +55,6 @@ const { getProjectData } = projectStore;
 const showDialog = ref(false);
 const editDialog = ref(false);
 
-const router = useRouter();
 const editData = ref({});
 
 const productList = ref([]);

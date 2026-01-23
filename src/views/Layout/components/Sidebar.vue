@@ -15,6 +15,8 @@
         </template>
         <el-menu-item index="/supplier">供应商列表</el-menu-item>
         <el-menu-item index="/supplier/product">供应商商品</el-menu-item>
+        <el-menu-item index="/supplier/recharge">充值审核</el-menu-item>
+        <el-menu-item index="/supplier/recharge/history">充值记录</el-menu-item>
       </el-sub-menu>
       <el-sub-menu index="2">
         <template #title>
