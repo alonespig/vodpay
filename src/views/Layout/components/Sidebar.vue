@@ -2,7 +2,7 @@
   <div class="aside">
     <el-menu
       active-text-color="#ffd04b"
-      background-color="black"
+      background-color="#001529"
       router
       :default-active="$route.path"
       :collapse="isCollapse"
@@ -55,7 +55,7 @@ defineProps({
 .aside {
   transition: width 0.7s ease;
   flex-shrink: 0;
-  background-color: #22272e;
+  background-color: #001529;
 }
 
 :deep(.el-menu) {

@@ -52,7 +52,7 @@ const handleEdit = (row) => {
   emit("edit", row);
 };
 const handleSupplier = (row) => {
-  emit("add-supplier", row.id);
+  emit("add-supplier", {...row});
 };
 </script>
 

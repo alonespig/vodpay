@@ -98,7 +98,6 @@ const submitEdit = () => {
 
 const clickRecharge = (row) => {
   console.log(row);
-  // rechargeInfo.value = row.value;
   emit("click-recharge", {...row});
 };
 

@@ -47,10 +47,10 @@ collapseMitt.on('collapse', (val) => {
 .aside {
   transition: width 0.7s ease;
   flex-shrink: 0;
-  background-color: black;
+  background-color: #001529;
 }
 
 .main {
-  background-color: pink;
+  background-color: #f0f2f5;
 }
 </style>

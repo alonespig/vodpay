@@ -18,7 +18,7 @@
         <template #default="scope"> {{ (scope.row.creditLimit * 1.0) / 100 }} 元 </template>
       </el-table-column>
       <el-table-column label="授信余额" align="center">
-        <template #default="scope"> {{ (scope.row.creditBalance * 1.0) / 100 }} 元 </template>
+        <template #default="scope"> {{ (scope.row.balance * 1.0) / 100 + (scope.row.creditLimit * 1.0) / 100 }} 元 </template>
       </el-table-column>
       <el-table-column label="创建时间" align="center" width="180">
         <template #default="scope">

@@ -7,7 +7,7 @@
           <el-button type="primary" @click="showDialog = true">添加产品</el-button>
         </div>
       </template>
-      <ProductTable :productList="productList" @edit="handleEdit" 
+      <ProductTable :productList="productList" @edit="handleEdit"
       @add-supplier="handleAddSupplier"
       />
     </el-card>
@@ -24,22 +24,30 @@
     :editData="editData"
     @submit="handleEditSubmit"
   />
+  <AddSupplierDialog
+    v-model:showDialog="addDialog"
+    @submit="handleAddSupplierSubmit"
+    :formData="addProductData"
+  />
 </template>
 
 <script setup>
 import { ref, onMounted } from "vue";
-import { useRoute, useRouter } from "vue-router";
+import { useRoute } from "vue-router";
 import {
   getProjectProductListApi,
   createProjectProductApi,
   updateProjectProductApi,
 } from "@/api/project";
+import { addSupplierProductToProjectProductApi } from "@/api/channel";
 import { ElMessage } from "element-plus";
 import ProductTable from "./components/ProductTable.vue";
 import AddProductDialog from "./components/AddProductDialog.vue";
 import EditProductDialog from "./components/EditProductDialog.vue";
+import AddSupplierDialog from "./components/AddSupplierDialog.vue";
 import { storeToRefs } from "pinia";
 import { useProjectStore } from "@/stores/project";
+import { getSupplierProductList } from "@/api/supplier";
 const route = useRoute();
 
 const channelID = route.params.channelID;
@@ -54,7 +62,8 @@ const { getProjectData } = projectStore;
 
 const showDialog = ref(false);
 const editDialog = ref(false);
-
+const addDialog = ref(false);
+const addProductData = ref({});
 const editData = ref({});
 
 const productList = ref([]);
@@ -92,6 +101,17 @@ const handleEdit = (row) => {
   editDialog.value = true;
 };
 
+const handleAddSupplier = async (row) => {
+  console.log(row);
+  const res = await getSupplierProductList({ skuID: row.skuID, brandID: row.brandID, specID: row.specID });
+  addProductData.value.supplierProductList = res;
+  addProductData.value.projectProduct = row;
+  addDialog.value = true;
+  console.log("addProductData.value", addDialog.value);
+}
+
+
+
 const handleEditSubmit = async (formData) => {
   try {
     await updateProjectProductApi(channelID, projectID, formData.id, formData);
@@ -108,6 +128,20 @@ const handleEditSubmit = async (formData) => {
       plain: true,
     });
   }
+};
+
+const handleAddSupplierSubmit = async (formData) => {
+  console.log("handleAddSupplierSubmit", formData);
+  try {
+    await addSupplierProductToProjectProductApi(formData);
+  } catch (error) {
+    ElMessage({
+      message: error.message,
+      type: "error",
+      plain: true,
+    });
+  }
+  getProjectProductList();
 };
 </script>
 

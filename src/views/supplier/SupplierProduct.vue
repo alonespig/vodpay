@@ -3,7 +3,7 @@
     <el-card>
       <template #header>
         <div class="card-header">
-          <span>供应商商品列表</span>
+          <span> {{ supplierName || "供应商"}} -  商品列表</span>
           <el-button type="primary" @click="buttonClick">添加供应商产品</el-button>
         </div>
       </template>
@@ -40,8 +40,6 @@ const supplierID = route.params.supplierID;
 const projectStore = useProjectStore();
 
 
-console.log("aaaa")
-console.log(route.matched);
 // 使用 storeToRefs 只获取响应式状态
 const { skuList, brandList, specList } = storeToRefs(projectStore);
 
@@ -50,6 +48,8 @@ const { getProjectData } = projectStore;
 const tableData = ref([]);
 // 定义供应商列表
 const supplierList = ref([]);
+
+const supplierName = ref("");
 
 // 定义添加供应商产品表单数据
 const form = ref({
@@ -85,6 +85,9 @@ const dialogAdd = ref(false);
 async function fetchSupplierProductList() {
   const res = await getSupplierProductList({ supplierID: supplierID });
   tableData.value = res;
+  if (tableData.value.length > 0) {
+    supplierName.value = tableData.value[0].supplierName;
+  }
 }
 
 // 添加供应商产品

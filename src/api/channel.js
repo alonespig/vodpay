@@ -22,3 +22,20 @@ export function getChannels() {
     method: "get",
   });
 }
+
+
+export function addSupplierProductToProjectProductApi(data) {
+  return service({
+    url: "/product",
+    method: "post",
+    data,
+  });
+}
+
+// 获取 supplier_channel 下的所有 product
+export function getProductsAPI() {
+  return service({
+    url: `/product`,
+    method: "get",
+  });
+}

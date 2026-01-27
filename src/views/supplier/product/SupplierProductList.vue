@@ -3,7 +3,7 @@
     <el-card>
       <template #header>
         <div class="card-header">
-          <span>供应商商品列表</span>
+          <span> 供应商商品列表</span>
           <el-button type="primary" @click="buttonClick">添加供应商产品</el-button>
         </div>
       </template>
