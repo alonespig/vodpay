@@ -17,14 +17,14 @@ import { computed } from 'vue'
 
 const route = useRoute()
 
-// const breadcrumbList = computed(() => {
-//   return route.matched
-//     .filter(r => r.meta?.title)
-//     .map(r => ({
-//       title: r.meta.title as string,
-//       path: r.path.includes(':')
-//         ? r.path.replace(':supplierId', route.params.supplierId as string)
-//         : r.path,
-//     }))
-// })
+const breadcrumbList = computed(() => {
+  return route.matched
+    .filter(r => r.meta?.title)
+    .map(r => ({
+      title: r.meta.title,
+      path: r.path.includes(':')
+        ? r.path.replace(':supplierId', route.params.supplierId)
+        : r.path,
+    }))
+})
 </script>

@@ -4,6 +4,7 @@ const routes = [
   {
     path: "/",
     name: "layout",
+    meta: { title: '首页' },
     component: () => import("@/views/Layout/index.vue"),
     children: [
       {
@@ -14,6 +15,7 @@ const routes = [
       {
         path: "channel",
         name: "channel",
+        meta: { title: '渠道列表' },
         component: () => import("@/views/channel/index.vue"),
       },
       {
@@ -65,6 +67,24 @@ const routes = [
         path: "product/sku",
         name: "product-sku",
         component: () => import("@/views/product/SKU/index.vue"),
+      },
+      {
+        path: 'recharge/supplier',
+        name: 'recharge-supplier',
+        meta: { title: '供应商充值' },
+        component: () => import("@/views/recharge/SupplierRecharge.vue"),
+      },
+      {
+        path: 'recharge/channel',
+        name: 'recharge-channel',
+        meta: { title: '渠道充值' },
+        component: () => import("@/views/recharge/ChannelRecharge.vue"),
+      },
+      {
+        path: "supplier/recharge/list",
+        name: "supplier-recharge-list",
+        meta: { title: '供应商充值列表' },
+        component: () => import("@/views/supplier/RechargeList.vue"),
       },
     ],
   },

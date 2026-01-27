@@ -20,7 +20,6 @@
 <script setup>
 import Sidebar from './components/Sidebar.vue'
 import Header from './components/Header.vue'
-import Breadcrumb from './components/Breadcrumb.vue'
 import { ref } from 'vue'
 import collapseMitt from '@/utils/collapsemitt.js'
 

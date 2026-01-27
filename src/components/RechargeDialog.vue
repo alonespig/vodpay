@@ -1,18 +1,18 @@
 <template>
   <el-dialog :model-value="rechargeDialog" @update:model-value="(val) => emit('update:rechargeDialog', val)"
     title="供应商充值" width="500">
-    <el-form :model="rechargeForm" label-width="auto" style="max-width: 800px">
+    <el-form :model="form" label-width="auto" style="max-width: 800px">
       <el-form-item label="供应商">
-        <el-input v-model="rechargeForm.name" disabled />
+        <el-input v-model="form.name" disabled />
       </el-form-item>
       <el-form-item label="充值金额">
-        <el-input v-model.number="rechargeForm.amount" />
+        <el-input v-model.number="form.amount" />
       </el-form-item>
       <el-form-item label="充值凭证">
         <el-upload class="avatar-uploader" action="http://localhost:8088/upload"
           :on-success="handleAvatarSuccess"
           >
-          <img v-if="rechargeForm.imageURL" :src="rechargeForm.imageURL" class="avatar" />
+          <img v-if="form.imageURL" :src="form.imageURL" class="avatar" />
           <el-icon v-else class="avatar-uploader-icon">
             <Plus />
           </el-icon>
@@ -29,13 +29,13 @@
 </template>
 
 <script setup>
-import { watch, reactive } from 'vue';
+import { watch, ref } from 'vue';
 const props = defineProps({
   rechargeDialog: {
     type: Boolean,
     default: false,
   },
-  supplierData: {
+  data: {
     type: Object,
     default: () => { },
   },
@@ -43,24 +43,22 @@ const props = defineProps({
 
 const emit = defineEmits(["update:rechargeDialog", "submit"])
 
-const rechargeForm = reactive({
-  id: 0,
-  name: '',
-  amount: 0,
-  imageUrl: '',
-})
+const form = ref({})
 
-watch(() => props.supplierData, (newVal) => {
-  if (newVal) {
-    rechargeForm.id = newVal.id;
-    rechargeForm.name = newVal.name;
-    rechargeForm.amount = 0;
+watch(() => props.rechargeDialog, (val) => {
+  if (val && props.data) {
+    form.value = {
+      id: props.data.id,
+      name: props.data.name,
+      amount: 0,
+      imageURL: ''
+    }
   }
 })
 
 const handleOk = () => {
-  emit("submit", { ...rechargeForm });
-  rechargeForm.amount = 0;
+  emit("submit", { ...form.value });
+  form.value.amount = 0;
   emit("update:rechargeDialog", false);
 }
 
@@ -68,12 +66,12 @@ const handleCancel = () => {
   emit("update:rechargeDialog", false);
 }
 
-const handleAvatarSuccess = (response, uploadFile, uploadFiles) => {
+const handleAvatarSuccess = (response) => {
   // response：后端返回的数据（JSON）
   // uploadFile：当前上传的文件信息
   // uploadFiles：已上传的文件列表
   console.log(response)
-  rechargeForm.imageURL = response.data.url
+  form.value.imageURL = response.data.url
 }
 </script>
 

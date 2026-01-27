@@ -16,7 +16,7 @@
         <el-menu-item index="/supplier">供应商列表</el-menu-item>
         <el-menu-item index="/supplier/product">供应商商品</el-menu-item>
         <el-menu-item index="/supplier/recharge">充值审核</el-menu-item>
-        <el-menu-item index="/supplier/recharge/history">充值记录</el-menu-item>
+
       </el-sub-menu>
       <el-sub-menu index="2">
         <template #title>
@@ -36,6 +36,16 @@
         <el-menu-item index="/product/spec">规格列表</el-menu-item>
         <el-menu-item index="/product/sku">SKU列表</el-menu-item>
       </el-sub-menu>
+      <el-sub-menu index="4">
+        <template #title>
+          <el-icon><Setting /></el-icon>
+          <span>充值管理</span>
+        </template>
+        <el-menu-item index="/recharge/supplier">供应商充值</el-menu-item>
+        <el-menu-item index="/recharge/channel">渠道充值</el-menu-item>
+        <el-menu-item index="/supplier/recharge/list">供应商充值列表</el-menu-item>
+        <el-menu-item index="/supplier/recharge/history">充值记录</el-menu-item>
+      </el-sub-menu>
     </el-menu>
   </div>
 </template>
@@ -53,6 +63,7 @@ defineProps({
 
 <style scoped>
 .aside {
+  width: 100%;
   transition: width 0.7s ease;
   flex-shrink: 0;
   background-color: #001529;
@@ -61,4 +72,11 @@ defineProps({
 :deep(.el-menu) {
   width: 100%;
 }
+
+/* 激活的菜单项 */
+.el-menu-item.is-active {
+  background-color: #2b6cff !important;
+  color: #fff !important;
+}
+
 </style>

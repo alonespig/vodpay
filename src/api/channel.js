@@ -23,6 +23,13 @@ export function getChannels() {
   });
 }
 
+export function getChannelAPI() {
+  return service({
+    url: "/channel",
+    method: "get",
+  });
+}
+
 
 export function addSupplierProductToProjectProductApi(data) {
   return service({
