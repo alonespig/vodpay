@@ -16,7 +16,7 @@
         <el-menu-item index="/supplier">供应商列表</el-menu-item>
         <el-menu-item index="/supplier/product">供应商商品</el-menu-item>
         <el-menu-item index="/supplier/recharge">充值审核</el-menu-item>
-
+        <el-menu-item index="/supplier/list">供应商列表</el-menu-item>
       </el-sub-menu>
       <el-sub-menu index="2">
         <template #title>
@@ -32,9 +32,7 @@
           <span>产品管理</span>
         </template>
         <el-menu-item index="/product">产品列表</el-menu-item>
-        <el-menu-item index="/product/brand">品牌列表</el-menu-item>
-        <el-menu-item index="/product/spec">规格列表</el-menu-item>
-        <el-menu-item index="/product/sku">SKU列表</el-menu-item>
+        <el-menu-item index="/warehouse">仓库管理</el-menu-item>
       </el-sub-menu>
       <el-sub-menu index="4">
         <template #title>

@@ -12,7 +12,7 @@
     <el-card>
       <template #header>
         <div class="card-title">
-          <span>{{ channelData?.name }} 产品列表</span>
+          <span>{{ projectName }} 产品列表</span>
           <el-button type="primary" @click="showDialog = true">添加产品</el-button>
         </div>
       </template>
@@ -20,7 +20,7 @@
     </el-card>
   </div>
   <AddProductDialog v-model:showDialog="showDialog" @submit="handleSubmit" :skuList="skuList" :brandList="brandList"
-    :specList="specList" />
+    :specList="specList" :supplierProductList="supplierProductList" @filter="handleFilter" />
   <EditProductDialog v-model:editDialog="editDialog" :editData="editData" @submit="handleEditSubmit" />
   <AddSupplierDialog v-model:showDialog="addDialog" @submit="handleAddSupplierSubmit" :formData="addProductData" />
 </template>
@@ -28,11 +28,9 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
-import {
-  getProjectProductListApi,
-  createProjectProductApi,
-  updateProjectProductApi,
-} from "@/api/project";
+
+import { getSupplierProductList } from "@/api/supplier-api";
+import { getProjectProductListAPI, updateProductAPI, createProjectProductApi } from "@/api/channel-api";
 import { addSupplierProductToProjectProductApi } from "@/api/channel";
 import { ElMessage } from "element-plus";
 import ProductTable from "./components/ProductTable.vue";
@@ -41,7 +39,7 @@ import EditProductDialog from "./components/EditProductDialog.vue";
 import AddSupplierDialog from "./components/AddSupplierDialog.vue";
 import { storeToRefs } from "pinia";
 import { useProjectStore } from "@/stores/project";
-import { getSupplierProductList } from "@/api/supplier";
+// import { getSupplierProductList } from "@/api/supplier";
 const route = useRoute();
 
 const channelID = route.params.channelID;
@@ -60,29 +58,33 @@ const addDialog = ref(false);
 const addProductData = ref({});
 const editData = ref({});
 
+const projectName = ref('');
 const productList = ref([]);
+const supplierProductList = ref([]);
+
+const handleFilter = async (filter) => {
+  console.log("handleFilter", filter);
+  const res = await getSupplierProductList(filter);
+  console.log("handleFilter", res);
+  supplierProductList.value = res;
+}
 
 const getProjectProductList = async () => {
-  const res = await getProjectProductListApi(channelID, projectID);
-  productList.value = res;
+  const res = await getProjectProductListAPI({ projectID });
+  productList.value = res.productList;
+  projectName.value = res.projectName;
 };
 
 const handleSubmit = async (formData) => {
-  try {
-    await createProjectProductApi(channelID, projectID, formData);
-    ElMessage({
-      message: `产品创建成功`,
-      type: "success",
-      plain: true,
-    });
-    getProjectProductList();
-  } catch (error) {
-    ElMessage({
-      message: error.message,
-      type: "error",
-      plain: true,
-    });
-  }
+  formData.projectID = Number(projectID);
+  console.log("handleSubmit", formData);
+  await createProjectProductApi(formData);
+  ElMessage({
+    message: `产品创建成功`,
+    type: "success",
+    plain: true,
+  });
+  getProjectProductList();
 };
 
 onMounted(() => {
@@ -107,8 +109,9 @@ const handleAddSupplier = async (row) => {
 
 
 const handleEditSubmit = async (formData) => {
+  console.log("handleEditSubmit", formData);
   try {
-    await updateProjectProductApi(channelID, projectID, formData.id, formData);
+    await updateProductAPI(formData);
     ElMessage({
       message: `产品${formData.name}更新成功`,
       type: "success",
@@ -144,6 +147,7 @@ const handleAddSupplierSubmit = async (formData) => {
   font-size: 16px;
   margin-bottom: 20px;
 }
+
 .card-title {
   display: flex;
   justify-content: space-between;

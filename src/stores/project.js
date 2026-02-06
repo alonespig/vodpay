@@ -1,26 +1,28 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
-import { Project, getProjectList } from "@/api/project";
+import { Project } from "@/api/project";
+import { getBrandListAPI, getSpecListAPI, getSkuListAPI } from "@/api/product-api";
 
 export const useProjectStore = defineStore("project", () => {
   const brandList = ref([]);
 
   const getBrandList = async () => {
-    const res = await getProjectList({ type: "brands" });
+    const res = await getBrandListAPI();
     brandList.value = res;
+    console.log("brandList", brandList.value);
   };
 
   const specList = ref([]);
 
   const getSpecList = async () => {
-    const res = await getProjectList({ type: "specs" });
+    const res = await getSpecListAPI();
     specList.value = res;
   };
 
   const skuList = ref([]);
 
   const getSkuList = async () => {
-    const res = await getProjectList({ type: "skus" });
+    const res = await getSkuListAPI();
     skuList.value = res;
   };
 

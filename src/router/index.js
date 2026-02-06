@@ -13,20 +13,24 @@ const routes = [
         component: () => import("@/views/product/ProductView.vue"),
       },
       {
-        path: "channel",
-        name: "channel",
-        meta: { title: '渠道列表' },
-        component: () => import("@/views/channel/index.vue"),
-      },
-      {
-        path: "channel/:channelID/project",
-        name: "Project",
-        component: () => import("@/views/channel/project/index.vue"),
-      },
-      {
-        path: "channel/:channelID/project/:projectID/product",
-        name: "Product",
-        component: () => import("@/views/channel/project/product/index.vue"),
+        path: '/channel',
+        children: [
+          {
+            path: '',
+            name: 'ChannelList',
+            component: () => import('@/views/channel/ChannelListView.vue'),
+          },
+          {
+            path: ':channelID/project',
+            name: 'ProjectList',
+            component: () => import('@/views/project/ProjectListView.vue'),
+          },
+          {
+            path: ':channelID/project/:projectID/product',
+            name: 'Product',
+            component: () => import('@/views/ProjectProduct/ProductListView.vue'),
+          }
+        ]
       },
       {
         path: "supplier",
@@ -86,6 +90,24 @@ const routes = [
         meta: { title: '供应商充值列表' },
         component: () => import("@/views/supplier/RechargeList.vue"),
       },
+      {
+        path: "supplier/product/list",
+        name: "supplier-product-list",
+        meta: { title: '供应商商品列表' },
+        component: () => import("@/views/supplierProduct/SupplierProduct.vue"),
+      },
+      {
+        path: "supplier/list",
+        name: "supplier-list",
+        meta: { title: '供应商列表' },
+        component: () => import("@/views/supplierList/SupplierList.vue"),
+      },
+      {
+        path: "warehouse",
+        name: "warehouse",
+        meta: { title: '仓库管理' },
+        component: () => import("@/views/Warehouse/WarehouseView.vue"),
+      }
     ],
   },
 ];

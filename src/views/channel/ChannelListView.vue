@@ -1,5 +1,8 @@
 <template>
   <div>
+    <el-breadcrumb separator=">" class="breadcrumb">
+      <el-breadcrumb-item>渠道列表</el-breadcrumb-item>
+    </el-breadcrumb>
     <el-card>
       <template #header>
         <div class="card-title">
@@ -11,11 +14,7 @@
     </el-card>
   </div>
   <AddChannelDialog v-model:showDialog="showDialog" @submit="handleSubmit" />
-  <EditChannelDialog
-    v-model:editDialog="editDialog"
-    :editData="editData"
-    @submit="handleEditSubmit"
-  />
+  <EditChannelDialog v-model:editDialog="editDialog" :editData="editData" @submit="handleEditSubmit" />
 </template>
 
 <script setup>
@@ -93,6 +92,11 @@ const handleEditSubmit = async (formData) => {
 </script>
 
 <style scoped>
+.breadcrumb {
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
 .card-title {
   display: flex;
   justify-content: space-between;

@@ -9,7 +9,7 @@
     <el-card>
       <template #header>
         <div class="card-title">
-          <span> {{ channelData?.name }} 项目列表</span>
+          <span> {{ channelName }} 项目列表</span>
           <el-button type="primary" @click="showDialog = true">添加项目</el-button>
         </div>
       </template>
@@ -23,7 +23,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { getProjectListApi, createProjectApi, updateProjectApi } from "@/api/project";
+import { getProjectListAPI,createProjectAPI, updateProjectAPI } from "@/api/channel-api";
 import { ElMessage } from "element-plus";
 
 import ProjectTable from "./components/ProjectTable.vue";
@@ -38,18 +38,19 @@ const editDialog = ref(false);
 
 const editData = ref({});
 
-const channelData = ref({});
+const channelName = ref({});
 const projectData = ref([]);
 
 const getProjectList = async () => {
-  const res = await getProjectListApi(channelID, {});
+  const res = await getProjectListAPI({channelID: channelID});
   projectData.value = res.projects;
-  channelData.value = res.channel;
+  channelName.value = res.channelName;
 };
 
 const handleSubmit = async (formData) => {
+  console.log(formData);
   try {
-    await createProjectApi(channelID, formData);
+    await createProjectAPI({channelID: Number(channelID), name: formData.name});
     ElMessage({
       message: `项目${formData.name}创建成功`,
       type: "success",
@@ -82,8 +83,9 @@ const handleProject = (projectid) => {
 };
 
 const handleEditSubmit = async (formData) => {
+  console.log(formData);
   try {
-    await updateProjectApi(channelID, formData.id, formData);
+    await updateProjectAPI(formData);
     ElMessage({
       message: `项目${formData.name}更新成功`,
       type: "success",
